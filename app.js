@@ -9,10 +9,10 @@ const carsRight = document.querySelectorAll('.car-right')
 
 console.log(squares)
 let currentIndex = 76;
-const width = 9
-let timerId
-let outcomeTimerId
-let currentTime = 20
+const width = 9;
+let timerId;
+let outcomeTimerId;
+let currentTime = 20;
 
 // Draw the frog
 function moveFrog(e) {
@@ -20,17 +20,17 @@ function moveFrog(e) {
 
   switch (e.key) {
     case 'ArrowLeft':
-      if (currentIndex % width !== 0) currentIndex -= 1
-      break
+      if (currentIndex % width !== 0) currentIndex -= 1;
+      break;
     case 'ArrowRight':
-      if (currentIndex % width < width - 1) currentIndex += 1
-      break
+      if (currentIndex % width < width - 1) currentIndex += 1;
+      break;
     case 'ArrowUp':
-      if (currentIndex - width >= 0) currentIndex -= width
-      break
+      if (currentIndex - width >= 0) currentIndex -= width;
+      break;
     case 'ArrowDown':
       if (currentIndex + width < width * width) currentIndex += width
-      break
+      break;
   }
 
   squares[currentIndex].classList.add('frog')
@@ -38,12 +38,12 @@ function moveFrog(e) {
 }
 // moving logs
 function autoMoveElements() {
-  currentTime--
-  timeLeftDisplay.textContent = currentTime
-  logsLeft.forEach(logLeft => moveLogLeft(logLeft))
-  logsRight.forEach(logRight => moveLogRight(logRight))
-  carsLeft.forEach(carLeft => moveCarLeft(carLeft))
-  carsRight.forEach(carRight => moveCarRight(carRight))
+  currentTime--;
+  timeLeftDisplay.textContent = currentTime;
+  logsLeft.forEach(logLeft => moveLogLeft(logLeft));
+  logsRight.forEach(logRight => moveLogRight(logRight));
+  carsLeft.forEach(carLeft => moveCarLeft(carLeft));
+  carsRight.forEach(carRight => moveCarRight(carRight));
 }
 
 function checkOutcomes() {
@@ -164,107 +164,14 @@ function win() {
 
 startPauseButton.addEventListener('click', () => {
    if(timerId){
-      clearInterval(timerId)
-      clearInterval(outcomeTimerId)
-      outcomeTimerId = null
-      timerId = null
-      document.removeEventListener('keyup', moveFrog)
+      clearInterval(timerId);
+      clearInterval(outcomeTimerId);
+      outcomeTimerId = null;
+      timerId = null;
+      document.removeEventListener('keyup', moveFrog);
    } else {
-    timerId = setInterval(autoMoveElements, 1000)
-    outcomeTimerId = setInterval(checkOutComes, 50)
-    document.addEventListener('keyup', moveFrog)
+    timerId = setInterval(autoMoveElements, 1000);
+    outcomeTimerId = setInterval(checkOutcomes, 50);
+    document.addEventListener('keyup', moveFrog);
   }
 })
-
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
-// Frog properties
-const frog = {
-  x: canvas.width / 2,
-  y: canvas.height - 30,
-  width: 30,
-  height: 30,
-  speed: 5,
-};
-
-function drawCars() {
-  ctx.fillStyle = 'red';
-  cars.forEach(car => {
-    ctx.fillRect(car.x, car.y, car.width, car.height);
-  });
-}
-
-function moveFrog(direction) {
-  if (direction === 'left' && frog.x > 0) {
-    frog.x -= frog.speed;
-  } else if (direction === 'right' && frog.x + frog.width < canvas.width) {
-    frog.x += frog.speed;
-  } else if (direction === 'up' && frog.y > 0) {
-    frog.y -= frog.speed;
-    score += 10; // Increase the score when the frog moves up
-  } else if (direction === 'down' && frog.y + frog.height < canvas.height) {
-    frog.y += frog.speed;
-  }
-}
-
-function updateGameArea() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawFrog();
-  drawCars();
-}
-cars.forEach(car => {
-  if (
-    frog.x < car.x + car.width &&
-    frog.x + frog.width > car.x &&
-    frog.y < car.y + car.height &&
-    frog.y + frog.height > car.y
-  ) {
-    // Collision detected, reset the frog
-    frog.x = canvas.width / 2 - 15;
-    frog.y = canvas.height - 30;
-    score = 0;
-  }
-});
-
-requestAnimationFrame(updateGameArea);
-
-
-// Handle keyboard input
-window.addEventListener('keydown', (event) => {
-  switch (event.key) {
-    case 'ArrowUp':
-      moveFrog('up');
-      break;
-    case 'ArrowDown':
-      moveFrog('down');
-      break;
-    case 'ArrowLeft':
-      moveFrog('left');
-      break;
-    case 'ArrowRight':
-      moveFrog('right');
-      break;
-  }
-});
-
-updateGameArea();
-// Update the game state
-function update() {
-  // Handle user input here
-  // Move the frog based on user input
-
-  // Check for collisions with obstacles (e.g., cars)
-
-  // Check if the frog reached the goal
-
-  // Redraw the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  moveFrog();
-
-  // Request the next frame
-  requestAnimationFrame(update);
-}
-
-// Start the game loop
-update();
