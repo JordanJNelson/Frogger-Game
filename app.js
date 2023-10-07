@@ -207,13 +207,41 @@ class Frogger {
     this.x = canvas.width/2 - this.width/2;
     this.y = canvas.height - this.height - 40;
     this.moving = false;
-    this.frameX = 0;
-    this.frameY = 0;
+
   }
   update(){
     console.log('update');
-  }
+    if (keys[38]){ // up
+      if(this.moving === false){
+        this.y -= grid;
+        this.moving = true;
+      }
+    }
+    if (keys[40]){ // down
+      if(this.moving === false && this.y < canvas.height - this.height * 2){
+          this.y += grid;
+          this.moving = true;
+        }
+      }
+    if (keys[37]){ // left
+      if(this.moving === false && this.x > this.width){
+          this.x -= grid;
+          this.moving = true;
+        }
+      }
+      if (keys[39]){
+        if(this.moving === false && this.x < canvas.width - this.width * 2){
+          this.x += grid;
+          this.moving = true;
+        }
+      }
+      if (this.y < 0) scored();
+   }
   drawFrog(){
+    ctx3.fillStyle = "green";
+    ctx3.fillRect(this.x, this.y, this.width, this.height)
+  }
+jump(){
 
   }
 }
@@ -221,5 +249,73 @@ class Frogger {
 const frogger = new Frogger();
 
 function animate(){
+  ctx3.clearRect(0, 0, canvas.width, canvas.height);
+  frogger.drawFrog();
+  frogger.update();
+  handleObstacles();
+  requestAnimationFrame(animate);
+}
 
+
+animate();
+
+
+// event listeners
+windows.addEventListener('keydown', function(e){
+  keys = [];
+  keys[e.keyCode] = true;
+  if (keys[37] || keys[38] || keys[39] || keys[40]) {
+    frogger.jump();
+  }
+});
+
+window.addEventListener('keyup', function(e){
+  delete keys[e.keyCode];
+  frogger.moving = false;
+});
+
+function scored(){
+  score++;
+  gameSpeed += 0.05;
+  frogger.x = canvas.width/2 - this.width/2;
+  frogger.y = canvas.height - this.height - 40;
+}
+
+class Obstacle {
+  constructor(x, y, width, height, speed, type){
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.speed = speed;
+    this.type = type;
+  }
+  drawFrog(){
+    ctx1.fillRect(this.x, this.y, this.width, this.height);
+  }
+  update(){
+    this.x += this.speed * gameSpeed; 
+    if(this.x > canvas.width + this.width){
+      this.x = 0 - this.width;
+    }
+
+  }
+}
+
+function initObstacles(){
+  // lane 
+  for(let i = 0; i < 2; i++){
+    let x = i * 350;
+    carsArray.push(new Obstacle(x, canvas.height - grid * 2 - 20, grid * 2, grid, 1, 'car'));
+  }
+}
+
+
+initObstacles();
+
+function handleObstacles(){
+  for (let i = 0; i < carsArray.length; i++){
+    carsArray[i].update();
+    carsArray[i].draw();
+  }
 }
