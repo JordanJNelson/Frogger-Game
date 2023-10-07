@@ -7,14 +7,28 @@ const logsRight = document.querySelectorAll('.log-right')
 const carsLeft = document.querySelectorAll('.car-left')
 const carsRight = document.querySelectorAll('.car-right')
 
+// global variables
+const grid = 80;
+let keys = [];
+let score = 0
+let collisonsCount= 0;
+let frame = 0;
+let gameSpeed = 1;
+
+const particlesArray = [];
+const maxParticles = 300;
+const ripplesArray = [];
+const carsArray = [];
+const logsArray = [];
+
 console.log(squares)
 let currentIndex = 76;
 const width = 9;
 let timerId;
 let outcomeTimerId;
-let currentTime = 20;
+let currentTime = 60;
 
-// Draw the frog
+// Move the frog
 function moveFrog(e) {
   squares[currentIndex].classList.remove('frog')
 
@@ -103,7 +117,7 @@ function moveLogRight(logRight) {
   }
 }
 
-
+// move cars to the left
 function moveCarLeft(carLeft) {
   switch (true) {
     case carLeft.classList.contains('c1') :
@@ -121,6 +135,7 @@ function moveCarLeft(carLeft) {
   }
 }
 
+// move cars to the right
 function moveCarRight(carRight) {
   switch (true) {
     case carRight.classList.contains('c1') :
@@ -138,6 +153,7 @@ function moveCarRight(carRight) {
   }
 }
 
+// lose logic
 function lose() {
   if (
     squares[currentIndex].classList.contains('c1') || 
@@ -153,6 +169,7 @@ function lose() {
   }
 }
 
+// win logic
 function win() {
   if (squares[currentIndex].classList.contains('ending-block')) {
     resultDisplay.textContent = 'You win!'
@@ -162,6 +179,7 @@ function win() {
   }
 }
 
+// set timer
 startPauseButton.addEventListener('click', () => {
    if(timerId){
       clearInterval(timerId);
@@ -175,3 +193,33 @@ startPauseButton.addEventListener('click', () => {
     document.addEventListener('keyup', moveFrog);
   }
 })
+
+
+
+
+// Frogger
+class Frogger {
+  constructor(){
+    this.spriteWidth = 250;
+    this.spriteHeight = 250;
+    this.width = this.spriteWidth/5;
+    this.height = this.spriteHeight/5;
+    this.x = canvas.width/2 - this.width/2;
+    this.y = canvas.height - this.height - 40;
+    this.moving = false;
+    this.frameX = 0;
+    this.frameY = 0;
+  }
+  update(){
+    console.log('update');
+  }
+  drawFrog(){
+
+  }
+}
+
+const frogger = new Frogger();
+
+function animate(){
+
+}

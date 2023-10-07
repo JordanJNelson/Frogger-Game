@@ -39,6 +39,16 @@
   background-color: lightgray;
 }
 
+.wrapper {
+  border: 5px solid black;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+
+}
 
 body {
   font-family: Arial, sans-serif;
