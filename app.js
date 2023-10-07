@@ -1,5 +1,5 @@
 const timeLeftDisplay = document.querySelector('#time-left')
-const result = document.querySelector('#result')
+const resultDisplay = document.querySelector('#result')
 const startPauseButton = document.querySelector('#start-pause-button')
 const squares = document.querySelectorAll('.grid div')
 const logsLeft = document.querySelectorAll('.log-left')
@@ -298,7 +298,6 @@ class Obstacle {
     if(this.x > canvas.width + this.width){
       this.x = 0 - this.width;
     }
-
   }
 }
 
@@ -319,3 +318,4 @@ function handleObstacles(){
     carsArray[i].draw();
   }
 }
+

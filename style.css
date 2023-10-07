@@ -21,6 +21,10 @@
 
 .frog {
   background-color: green;
+  position: absolute;
+  overflow: visible;
+  display: grid;
+  position:relative;
 }
 
 .l1, .l2, .l3 {
@@ -86,3 +90,4 @@ button {
 button:hover {
   background-color: #2980b9;
 }
+
